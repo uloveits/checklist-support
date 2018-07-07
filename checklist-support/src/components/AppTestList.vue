@@ -100,20 +100,19 @@
               var saveIndex = [];
               var j=0;
               var m=1;
-
               for(var i= 0;i< this.appTestData.length; i++) {
                   //数据库没有保存过数据（result1）
-                  if((arrSelectIndexSavedRet1.indexOf(i) == -1  && this.appTestData[i].result1 != null )||
-                   (this.appTestData[i].result1 == "NG" && this.appTestData[i].result2 != null && arrSelectIndexSavedRet2.indexOf(i) == -1) ){
+                  if((arrSelectIndexSavedRet1.indexOf(i) == -1  && this.appTestData[i].result1 != null && this.appTestData[i].result1 != "" )||
+                   (this.appTestData[i].result1 == "NG" && this.appTestData[i].result2 != null && this.appTestData[i].result2 != "" && arrSelectIndexSavedRet2.indexOf(i) == -1) ){
                       saveIndex.push(i);
                       //判断这条数据apptest表中有没有
                       this.$http.post('/api/app/getAppTestCount', {
                            appId: this.appId,
                            ctrlId: this.appTestData[i].ctrlId,
                            caseId: this.appTestData[i].caseId,
-                           testName: this.appTestData[i].testName,
+                           appctrlId: this.appTestData[i].id,
                       },{}).then((response) => {
-                          var n = saveIndex[j]
+                          var n = saveIndex[j];
 
                           //数据库中有着条数据的情况
 
@@ -125,7 +124,7 @@
                                      appId: _this.appId,
                                      ctrlId: _this.appTestData[n].ctrlId,
                                      caseId: _this.appTestData[n].caseId,
-                                     testName:_this.appTestData[n].testName,
+                                     appctrlId:_this.appTestData[n].id,
                                },{}).then((response) => {
                                    if( m == saveIndex.length) {
                                       arrSelectIndex = [];
@@ -141,6 +140,7 @@
                               this.$http.post('/api/app/insertAppTest', {
                                    id:testId,
                                    appId: _this.appId,
+                                   appctrlId:_this.appTestData[n].id,
                                    ctrlId: _this.appTestData[n].ctrlId,
                                    caseId: _this.appTestData[n].caseId,
                                    testName:_this.appTestData[n].testName,
@@ -154,7 +154,7 @@
                                       arrSelectIndexRet2 = [];
                                       arrSelectIndexSavedRet1  = [];
                                       arrSelectIndexSavedRet2 = [];
-                                       _this.appChange();
+                                      _this.pageChange(this.$refs.pager.currentPage );
                                     }
                                     m++;
                               });
@@ -198,8 +198,6 @@
                    retData.push(arrSelectData[i]);
                  }
                  this.appTestData = retData;
-
-
                  arrSelectIndex = [];
                  arrSelectIndexRet2 = [];
                  arrSelectIndexSavedRet1  = [];
@@ -215,6 +213,10 @@
                 retData.push(arrSelectData[i]);
               }
               this.appTestData = retData;
+              arrSelectIndex = [];
+              arrSelectIndexRet2 = [];
+              arrSelectIndexSavedRet1  = [];
+              arrSelectIndexSavedRet2 = [];
 
           },
           pageSizeChange(pageSize) {
@@ -223,7 +225,7 @@
           },
           SelectDisabled(value,index) {
               if(arrSelectIndex.indexOf(index) > -1 ) {return false;}
-              if(value == null){
+              if(value == null || value == ""){
                 arrSelectIndex.push(index);
                 return false;
               }else {
@@ -233,7 +235,7 @@
           },
           SelectDisabledRet2(value,index) {
               if(arrSelectIndexRet2.indexOf(index) > -1 ) {return true;}
-              if(value == null){
+              if(value == null || value == ""){
                 arrSelectIndexRet2.push(index);
                 return true;
               }else {
@@ -253,7 +255,7 @@
                 {
                     title: '浏览器',
                     key: 'explorer',
-                    width: 80,
+                    width: 75,
                      render: (h, params) => {
                          return h('div', {style:{color:'red'}}, 'IE')
                      }
@@ -261,25 +263,26 @@
                  {
                     title: '项目名称',
                     key: 'testName',
-                    width: 200,
+                    width: 100,
                     className: 'demo-table-info-column',
                  },
                  {
                     title: '类型',
                     key: 'ctrlName',
-                    width: 200,
+                    width: 150,
                     className: 'demo-table-info-column',
                  },
                  {
                     title: '测试',
                     key: 'caseInfo',
-                    width: 400,
+                    minWidth:200,
                     className: 'table-info-strong',
                  },
                 {
                    title: '备注',
                    key: 'note',
-                   minWidth:200,
+                   minWidth:120,
+                   maxWidth:200,
                    render: (h, params) => {
                         return h('Input', {
                             props: {
@@ -317,6 +320,11 @@
                         },
                         [
                             h('Option',{
+                              props: {
+                                value: ''
+                              }
+                            },'-'),
+                            h('Option',{
                                 props: {
                                     value: 'OK'
                                 }
@@ -338,7 +346,7 @@
                 {
                     title: '时间1',
                     key: 'time1',
-                    minWidth:170,
+                    width:165,
                     className: 'table-info-strong',
                     render: function (h, params) {
                       return h('div',
@@ -365,6 +373,11 @@
                         },
                         [
                             h('Option',{
+                              props: {
+                                value: ''
+                              }
+                            },'-'),
+                            h('Option',{
                                 props: {
                                     value: 'OK'
                                 }
@@ -386,7 +399,7 @@
                 {
                     title: '时间2',
                     key: 'time2',
-                    minWidth:170,
+                    width:160,
                     className: 'table-info-strong',
                     render: function (h, params) {
                       return h('div',

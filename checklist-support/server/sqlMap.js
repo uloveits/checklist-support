@@ -51,7 +51,7 @@ var sqlMap = {
                     " left join ctrlcase Ca" +
                     " on C.id = Ca.ctrlId" +
                     " left join apptest T" +
-                    " on (A.ctrlId = T.ctrlId and A.appId = T.appId and Ca.caseId = T.caseId and A.testName = T.testName)" +
+                    " on (A.ctrlId = T.ctrlId and A.appId = T.appId and Ca.caseId = T.caseId and A.testName = T.testName and A.id = T.appctrlId)" +
                     " left join app Ap" +
                     " on (A.appId = Ap.appId)" +
                     " where A.appId = ? and A.delFlag = '0' and C.delFlag = '0' and Ca.delFlag = '0'and Ap.delFlag = '0' " +
@@ -83,9 +83,9 @@ var sqlMap = {
                               " where A.appId = ? and A.delFlag = '0' and C.delFlag = '0' and Ca.delFlag = '0'and Ap.delFlag = '0' " +
                               " order by A.updateTime asc,Ca.updateTime asc",
         updateAppTest:" update apptest set note = ?, result1 = ?, time1 = ?, result2 = ? ,time2 = ?" +
-                        " where appId = ? and ctrlId = ? and caseId = ? and testName = ?",
-        insertAppTest:" insert into apptest(id, appId,ctrlId,caseId,testName,explorer,note,result1,time1,result2,time2) values (?,?,?,?,?,'IE',?,?,?,?,?)",
-        getAppTestCount:"select count(*) as count from apptest where appId = ? and ctrlId = ? and caseId = ? and testName = ?"
+                        " where appId = ? and ctrlId = ? and caseId = ? and appctrlId = ?",
+        insertAppTest:" insert into apptest(id, appId,appctrlId,ctrlId,caseId,testName,explorer,note,result1,time1,result2,time2) values (?,?,?,?,?,?,'IE',?,?,?,?,?)",
+        getAppTestCount:"select count(*) as count from apptest where appId = ? and ctrlId = ? and caseId = ? and appctrlId = ?"
     }
 }
 

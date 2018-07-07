@@ -154,7 +154,7 @@ router.post('/getAppTestCount', (req, res) => {
   var sql = $sql.appTest.getAppTestCount;
   var params = req.body;
   console.log(params);
-  conn.query(sql, [params.appId,params.ctrlId, params.caseId,params.testName], function(err, result) {
+  conn.query(sql, [params.appId,params.ctrlId, params.caseId,params.appctrlId], function(err, result) {
     if (err) {
       console.log(err);
     }
@@ -177,7 +177,7 @@ router.post('/updateAppTest', (req, res) => {
   if(params.result2 != null) {
     time2 = getNowFormatDate();
   }
-  conn.query(sql, [params.note,params.result1,time1,params.result2,time2,params.appId,params.ctrlId, params.caseId,params.testName], function(err, result) {
+  conn.query(sql, [params.note,params.result1,time1,params.result2,time2,params.appId,params.ctrlId, params.caseId,params.appctrlId], function(err, result) {
     if (err) {
       console.log(err);
     }
@@ -200,7 +200,7 @@ router.post('/insertAppTest', (req, res) => {
   if(params.result2 != null) {
     time2 = getNowFormatDate();
   }
-  conn.query(sql, [params.id,params.appId,params.ctrlId, params.caseId,params.testName,params.note,params.result1,time1,params.result2,time2], function(err, result) {
+  conn.query(sql, [params.id,params.appId,params.appctrlId,params.ctrlId, params.caseId,params.testName,params.note,params.result1,time1,params.result2,time2], function(err, result) {
     if (err) {
       console.log(err);
     }
