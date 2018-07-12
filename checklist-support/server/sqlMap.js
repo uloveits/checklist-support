@@ -57,31 +57,31 @@ var sqlMap = {
                     " where A.appId = ? and A.delFlag = '0' and C.delFlag = '0' and Ca.delFlag = '0'and Ap.delFlag = '0' " +
                     " order by A.updateTime asc,Ca.updateTime asc",
         getAppTestExport:" select DISTINCT" +
-                              " A.id," +
-                              " A.ctrlId," +
-                              " C.ctrlName," +
-                              " A.testName,"  +
-                              " Ca.caseId," +
-                              " Ca.caseInfo," +
-                              " Ap.version," +
-                              " Ap.appUser," +
-                              " Ap.appName," +
-                              " T.explorer," +
-                              " T.note," +
-                              " T.result1," +
-                              " T.time1," +
-                              " T.result2," +
-                              " T.time2" +
-                              " from appctrl A left join controls C" +
-                              " on A.ctrlId = C.id" +
-                              " left join ctrlcase Ca" +
-                              " on C.id = Ca.ctrlId" +
-                              " left join apptest T" +
-                              " on (A.ctrlId = T.ctrlId and A.appId = T.appId and Ca.caseId = T.caseId and A.testName = T.testName )" +
-                              " left join app Ap" +
-                              " on (A.appId = Ap.appId)" +
-                              " where A.appId = ? and A.delFlag = '0' and C.delFlag = '0' and Ca.delFlag = '0'and Ap.delFlag = '0' " +
-                              " order by A.updateTime asc,Ca.updateTime asc",
+                                  " A.id," +
+                                  " A.ctrlId," +
+                                  " C.ctrlName," +
+                                  " A.testName,"  +
+                                  " Ca.caseId," +
+                                  " Ca.caseInfo," +
+                                  " Ap.version," +
+                                  " Ap.appUser," +
+                                  " Ap.appName," +
+                                  " T.explorer," +
+                                  " T.note," +
+                                  " T.result1," +
+                                  " T.time1," +
+                                  " T.result2," +
+                                  " T.time2" +
+                          " from appctrl A left join controls C" +
+                          " on A.ctrlId = C.id" +
+                          " left join ctrlcase Ca" +
+                          " on C.id = Ca.ctrlId" +
+                          " left join apptest T" +
+                          " on (A.ctrlId = T.ctrlId and A.appId = T.appId and Ca.caseId = T.caseId and A.testName = T.testName and A.id = T.appctrlId)" +
+                          " left join app Ap" +
+                          " on (A.appId = Ap.appId)" +
+                          " where A.appId = ? and A.delFlag = '0' and C.delFlag = '0' and Ca.delFlag = '0'and Ap.delFlag = '0' " +
+                          " order by A.updateTime asc,Ca.updateTime asc",
         updateAppTest:" update apptest set note = ?, result1 = ?, time1 = ?, result2 = ? ,time2 = ?" +
                         " where appId = ? and ctrlId = ? and caseId = ? and appctrlId = ?",
         insertAppTest:" insert into apptest(id, appId,appctrlId,ctrlId,caseId,testName,explorer,note,result1,time1,result2,time2) values (?,?,?,?,?,?,'IE',?,?,?,?,?)",

@@ -31,7 +31,6 @@
 </template>
 
 <script>
-
     export default {
         //组建渲染的时候执行
         created () {
@@ -68,7 +67,7 @@
              require.ensure([], () => {
                   const { export_json_to_excel } = require('../vendor/Export2Excel');
                   const tHeader = ['No', 'ブラウザ', '項目名','実施内容/目的','備考','Ver','初回実施日','初回実施者', '初回結果','最終実施日','最終実施者', '最終結果'];
-                  const filterVal = ['no', 'explorer', 'testName', 'caseInfo','note', 'version', 'time1', 'testUser1', 'result1', 'time2', 'testUser2', 'result2'];
+                  const filterVal = ['no', 'explorer', 'testName', 'caseInfo', 'note', 'version', 'time1', 'testUser1', 'result1', 'time2', 'testUser2', 'result2'];
                   const list = _this.exportData;
             　　　const data = _this.formatJson(filterVal, list);
             　　　export_json_to_excel(tHeader, data, _this.exportData[0].appName + '-checklist');
@@ -76,13 +75,13 @@
           },
           appChange() {
              if(this.appId == "") return;
-             this.$http.post('/api/app/getAppTestExport', {
+             this.$http.post('/api/app/getAppTest', {
                    appId: this.appId,
              },{}).then((response) => {
                  var retData = response.body;
                  for(var i= 0; i< retData.length;i++) {
                        if(retData[i].result1 == "NA" ){
-                        retData.splice(i, 1)
+                        retData.splice(i--, 1)
                       }
                  }
                  for(var i= 0;i< retData.length; i++) {
