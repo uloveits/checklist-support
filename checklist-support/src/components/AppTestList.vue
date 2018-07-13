@@ -131,7 +131,7 @@
                                       arrSelectIndexRet2 = [];
                                       arrSelectIndexSavedRet1  = [];
                                       arrSelectIndexSavedRet2 = [];
-                                       _this.appChange();
+                                       _this.appChange(this.$refs.pager.currentPage);
                                    }
                                     m++;
                                });
@@ -207,16 +207,25 @@
           },
           pageChange(newPage) {
               let retData = [];
-              var start = newPage * this.pageSize - this.pageSize;
-              var end = (newPage * this.pageSize > this.pageTotal) ? this.pageTotal :newPage * this.pageSize;
-              for( let i= start; i< end; i++) {
-                retData.push(arrSelectData[i]);
-              }
-              this.appTestData = retData;
-              arrSelectIndex = [];
-              arrSelectIndexRet2 = [];
-              arrSelectIndexSavedRet1  = [];
-              arrSelectIndexSavedRet2 = [];
+            this.$http.post('/api/app/getAppTest', {
+              appId: this.appId,
+            },{}).then((response) => {
+                arrSelectData = response.body;
+                this.pageTotal = response.body.length;
+                for( let i= 0; i< arrSelectData.length; i++) {
+                  arrSelectData[i].no = i+1;
+                }
+                var start = newPage * this.pageSize - this.pageSize;
+                var end = (newPage * this.pageSize > this.pageTotal) ? this.pageTotal :newPage * this.pageSize;
+                for( let i= start; i< end; i++) {
+                  retData.push(arrSelectData[i]);
+                }
+                this.appTestData = retData;
+                arrSelectIndex = [];
+                arrSelectIndexRet2 = [];
+                arrSelectIndexSavedRet1  = [];
+                arrSelectIndexSavedRet2 = [];
+          });
 
           },
           pageSizeChange(pageSize) {
