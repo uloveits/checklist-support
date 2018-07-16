@@ -131,7 +131,7 @@
                                       arrSelectIndexRet2 = [];
                                       arrSelectIndexSavedRet1  = [];
                                       arrSelectIndexSavedRet2 = [];
-                                       _this.appChange(this.$refs.pager.currentPage);
+                                      _this.pageChange(this.$refs.pager.currentPage );
                                    }
                                     m++;
                                });
